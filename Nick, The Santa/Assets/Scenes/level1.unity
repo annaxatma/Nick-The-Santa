@@ -145,9 +145,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9e4066956f297d44b3fdd3fee1637fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpVelocity: 5
+  jumpVelocity: 20
   velocity: {x: 7, y: 0}
-  gravity: 5
+  gravity: 65
   floormask:
     serializedVersion: 2
     m_Bits: 1
