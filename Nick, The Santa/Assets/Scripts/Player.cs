@@ -8,7 +8,8 @@ public class Player : MonoBehaviour
     public Vector2 velocity;
     public float gravity;
     public LayerMask floormask;
-    public new Rigidbody2D rigidbody2D;
+    private Rigidbody2D rigidbody2D;
+    
 
     private bool walk, walk_left, walk_right, jump;
 
@@ -26,9 +27,10 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        rigidbody2D = transform.GetComponent<Rigidbody2D>();
         //Fall();
         anim = GetComponent<Animator>();
-        anim.SetBool("Ground", true);
+        anim.SetBool("Ground", false);
         anim.SetBool("isRunning", false);
     }
 
@@ -62,7 +64,7 @@ public class Player : MonoBehaviour
         if (transform.localPosition.y < 1.4584)
         {
 
-            //transform.localPosition = new Vector3(transform.localPosition.x, (float)1.4584, transform.localPosition.z);
+            transform.localPosition = new Vector3(transform.localPosition.x, (float)1.4584, transform.localPosition.z);
             playerState = PlayerState.idle;
             grounded = true;
 
@@ -137,30 +139,32 @@ public class Player : MonoBehaviour
             anim.SetBool("isRunning", false);
         }
 
-        if (jump && playerState != PlayerState.jumping)
-        {
-            playerState = PlayerState.jumping;
-            velocity = new Vector2(velocity.x, jumpVelocity);
+        
+
+        //if (jump && playerState != PlayerState.jumping)
+        //{
+            //playerState = PlayerState.jumping;
+            //velocity = new Vector2(velocity.x, jumpVelocity);
             
-            anim.SetBool("Ground", false);
-            anim.SetBool("isRunning", false);
+            //anim.SetBool("Ground", false);
+            //anim.SetBool("isRunning", false);
 
-        }
+        //}
 
-        if(playerState == PlayerState.jumping)
-        {
+        //if(playerState == PlayerState.jumping)
+        //{
             //rigidbody2D.AddForce(velocity);
-            pos.y += velocity.y * Time.deltaTime;
-            velocity.y -= gravity * Time.deltaTime;
+            //pos.y += velocity.y * Time.deltaTime;
+            //velocity.y -= gravity * Time.deltaTime;
 
             //rigidbody2D.AddForce(Vector2.up * 10, ForceMode2D.Impulse);
 
             //GetComponent<Rigidbody2D>().AddForce(new Vector2(0f, velocity.y));
 
-            anim.SetBool("Ground", false);
-            anim.SetBool("isRunning", false);
+            //anim.SetBool("Ground", false);
+            //anim.SetBool("isRunning", false);
 
-        }      
+        //}      
 
         transform.localPosition = pos;
         transform.localScale = scale;
@@ -172,7 +176,7 @@ public class Player : MonoBehaviour
     {
         bool input_left = Input.GetKey(KeyCode.A);
         bool input_right = Input.GetKey(KeyCode.D);
-        bool input_space = Input.GetKey(KeyCode.Space);
+        bool input_space = Input.GetKeyDown(KeyCode.Space);
 
         walk = input_left || input_right;
 
@@ -180,6 +184,12 @@ public class Player : MonoBehaviour
         walk_right = !input_left && input_right;
 
         jump = input_space;
+
+        if (input_space == true)
+        {
+            float jumpVelocity = 16f;
+            rigidbody2D.velocity = Vector2.up * jumpVelocity;
+        }
     }
 
     void Fall()
