@@ -165,14 +165,13 @@ public class Player : MonoBehaviour
         if (input_space == true)
         {
             
-
             if (jump && playerState != PlayerState.jumping)
             {
                 float jumpVelocity = 16f;
                 rigidbody2D.velocity = Vector2.up * jumpVelocity;
 
                 playerState = PlayerState.jumping;
-                velocity = new Vector2(velocity.x, jumpVelocity);
+                //velocity = new Vector2(velocity.x, jumpVelocity);
 
                 anim.SetBool("Ground", true);
                 anim.SetBool("isRunning", false);
@@ -181,14 +180,7 @@ public class Player : MonoBehaviour
 
             if(playerState == PlayerState.jumping)
             {
-            //rigidbody2D.AddForce(velocity);
-            //pos.y += velocity.y * Time.deltaTime;
-            //velocity.y -= gravity * Time.deltaTime;
-
-            //rigidbody2D.AddForce(Vector2.up * 10, ForceMode2D.Impulse);
-
-            //GetComponent<Rigidbody2D>().AddForce(new Vector2(0f, velocity.y));
-
+            
                 anim.SetBool("Ground", false);
                 anim.SetBool("isRunning", false);
 
