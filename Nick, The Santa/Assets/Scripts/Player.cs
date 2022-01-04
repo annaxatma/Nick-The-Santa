@@ -20,11 +20,15 @@ public class Player : MonoBehaviour
 
     private PlayerState playerState = PlayerState.idle;
     private bool grounded = false;
+    private Animator anim;
 
     // Start is called before the first frame update
     void Start()
     {
         //Fall();
+        anim = GetComponent<Animator>();
+        anim.SetBool("Ground", true);
+        anim.SetBool("isRunning", false);
     }
 
     // Update is called once per frame
@@ -33,6 +37,7 @@ public class Player : MonoBehaviour
         CheckPlayerInput();
         UpdatePlayerPosition();
         BorderUpdate();
+        //UpdateAnimationStates();
     }
 
     void BorderUpdate()
@@ -69,6 +74,28 @@ public class Player : MonoBehaviour
         }
     }
 
+    void UpdateAnimationStates()
+    {
+        if (grounded && !walk)
+        {
+            anim.SetBool("Ground", true);
+            anim.SetBool("isRunning", false);
+        }
+
+        if (grounded && walk)
+        {
+            anim.SetBool("Ground", true);
+            anim.SetBool("isRunning", true);
+        }
+
+        if (playerState == PlayerState.jumping)
+        {
+            anim.SetBool("Ground", false);
+            anim.SetBool("isRunning", false);
+        }
+    }
+
+
     void UpdatePlayerPosition()
     {
         Vector3 pos = transform.localPosition;
@@ -80,27 +107,45 @@ public class Player : MonoBehaviour
             {
                 pos.x -= velocity.x * Time.deltaTime;
                 scale.x = (float)-0.233553;
+
+                anim.SetBool("Ground", true);
+                anim.SetBool("isRunning", true);
             }
 
             if (walk_right)
             {
                 pos.x += velocity.x * Time.deltaTime;
                 scale.x = (float)0.233553;
+
+                anim.SetBool("Ground", true);
+                anim.SetBool("isRunning", true);
             }
 
             
+
+
+        } else
+        {
+            anim.SetBool("Ground", true);
+            anim.SetBool("isRunning", false);
         }
 
         if (jump && playerState != PlayerState.jumping)
         {
             playerState = PlayerState.jumping;
             velocity = new Vector2(velocity.x, jumpVelocity);
+            anim.SetBool("Ground", true);
+            anim.SetBool("isRunning", false);
+
         }
 
         if(playerState == PlayerState.jumping)
         {
             pos.y += velocity.y * Time.deltaTime;
             velocity.y -= gravity * Time.deltaTime;
+
+            anim.SetBool("Ground", false);
+            anim.SetBool("isRunning", false);
 
         }      
 
