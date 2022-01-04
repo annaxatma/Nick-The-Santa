@@ -9,6 +9,7 @@ public class Player : MonoBehaviour
     public float gravity;
     public LayerMask floormask;
     private Rigidbody2D rigidbody2D;
+    AudioSource jumpSound;
 
     private bool isJumping = false;
 
@@ -32,6 +33,7 @@ public class Player : MonoBehaviour
         anim = GetComponent<Animator>();
         anim.SetBool("Ground", false);
         anim.SetBool("isRunning", false);
+        jumpSound = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -121,6 +123,7 @@ public class Player : MonoBehaviour
                 float jumpVelocity = 16f;
                 rigidbody2D.velocity = Vector2.up * jumpVelocity;
                 playerState = PlayerState.jumping;
+                jumpSound.Play();
 
                 isJumping = true;
 
