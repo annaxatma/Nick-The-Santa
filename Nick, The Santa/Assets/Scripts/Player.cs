@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
     public Vector2 velocity;
     public float gravity;
     public LayerMask floormask;
+    public new Rigidbody2D rigidbody2D;
 
     private bool walk, walk_left, walk_right, jump;
 
@@ -40,6 +41,8 @@ public class Player : MonoBehaviour
         //UpdateAnimationStates();
     }
 
+    
+
     void BorderUpdate()
     {
         if (transform.localPosition.x < -9)
@@ -59,19 +62,23 @@ public class Player : MonoBehaviour
         if (transform.localPosition.y < 1.4584)
         {
 
-            transform.localPosition = new Vector3(transform.localPosition.x, (float)1.4584, transform.localPosition.z);
+            //transform.localPosition = new Vector3(transform.localPosition.x, (float)1.4584, transform.localPosition.z);
             playerState = PlayerState.idle;
             grounded = true;
 
             if (velocity.y <= 0)
             {
-                velocity.y = 0;
+            velocity.y = 0;
             }
+
+            
             
 
 
 
         }
+
+        
     }
 
     void UpdateAnimationStates()
@@ -134,15 +141,21 @@ public class Player : MonoBehaviour
         {
             playerState = PlayerState.jumping;
             velocity = new Vector2(velocity.x, jumpVelocity);
-            anim.SetBool("Ground", true);
+            
+            anim.SetBool("Ground", false);
             anim.SetBool("isRunning", false);
 
         }
 
         if(playerState == PlayerState.jumping)
         {
+            //rigidbody2D.AddForce(velocity);
             pos.y += velocity.y * Time.deltaTime;
             velocity.y -= gravity * Time.deltaTime;
+
+            //rigidbody2D.AddForce(Vector2.up * 10, ForceMode2D.Impulse);
+
+            //GetComponent<Rigidbody2D>().AddForce(new Vector2(0f, velocity.y));
 
             anim.SetBool("Ground", false);
             anim.SetBool("isRunning", false);
@@ -152,6 +165,8 @@ public class Player : MonoBehaviour
         transform.localPosition = pos;
         transform.localScale = scale;
     }
+
+    
 
     void CheckPlayerInput()
     {
