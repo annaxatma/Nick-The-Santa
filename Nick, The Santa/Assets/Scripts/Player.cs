@@ -43,8 +43,6 @@ public class Player : MonoBehaviour
         //UpdateAnimationStates();
     }
 
-    
-
     void BorderUpdate()
     {
         if (transform.localPosition.x < -9)
@@ -61,26 +59,6 @@ public class Player : MonoBehaviour
 
         }
 
-        if (transform.localPosition.y < 1.4584)
-        {
-
-            transform.localPosition = new Vector3(transform.localPosition.x, (float)1.4584, transform.localPosition.z);
-            playerState = PlayerState.idle;
-            grounded = true;
-
-            if (velocity.y <= 0)
-            {
-            velocity.y = 0;
-            }
-
-            
-            
-
-
-
-        }
-
-        
     }
 
     void UpdateAnimationStates()
@@ -164,19 +142,18 @@ public class Player : MonoBehaviour
 
         if (input_space == true)
         {
-            
+          
+            float jumpVelocity = 16f;
+            rigidbody2D.velocity = Vector2.up * jumpVelocity;
+            playerState = PlayerState.jumping;
+
             if (jump && playerState != PlayerState.jumping)
             {
-                float jumpVelocity = 16f;
-                rigidbody2D.velocity = Vector2.up * jumpVelocity;
-
-                playerState = PlayerState.jumping;
-                //velocity = new Vector2(velocity.x, jumpVelocity);
-
+                
                 anim.SetBool("Ground", true);
                 anim.SetBool("isRunning", false);
 
-            }
+            } 
 
             if(playerState == PlayerState.jumping)
             {
