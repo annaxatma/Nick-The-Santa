@@ -9,7 +9,8 @@ public class Player : MonoBehaviour
     public float gravity;
     public LayerMask floormask;
     private Rigidbody2D rigidbody2D;
-    
+
+    private bool isJumping = false;
 
     private bool walk, walk_left, walk_right, jump;
 
@@ -28,7 +29,6 @@ public class Player : MonoBehaviour
     void Start()
     {
         rigidbody2D = transform.GetComponent<Rigidbody2D>();
-        //Fall();
         anim = GetComponent<Animator>();
         anim.SetBool("Ground", false);
         anim.SetBool("isRunning", false);
@@ -40,7 +40,7 @@ public class Player : MonoBehaviour
         CheckPlayerInput();
         UpdatePlayerPosition();
         BorderUpdate();
-        //UpdateAnimationStates();
+  
     }
 
     void BorderUpdate()
@@ -60,28 +60,6 @@ public class Player : MonoBehaviour
         }
 
     }
-
-    void UpdateAnimationStates()
-    {
-        if (grounded && !walk)
-        {
-            anim.SetBool("Ground", true);
-            anim.SetBool("isRunning", false);
-        }
-
-        if (grounded && walk)
-        {
-            anim.SetBool("Ground", true);
-            anim.SetBool("isRunning", true);
-        }
-
-        if (playerState == PlayerState.jumping)
-        {
-            anim.SetBool("Ground", false);
-            anim.SetBool("isRunning", false);
-        }
-    }
-
 
     void UpdatePlayerPosition()
     {
@@ -108,31 +86,22 @@ public class Player : MonoBehaviour
                 anim.SetBool("isRunning", true);
             }
 
-            
-
-
         } else
         {
             anim.SetBool("Ground", true);
             anim.SetBool("isRunning", false);
         }
 
-        
-
-           
-
         transform.localPosition = pos;
         transform.localScale = scale;
     }
-
-    
 
     void CheckPlayerInput()
     {
         bool input_left = Input.GetKey(KeyCode.A);
         bool input_right = Input.GetKey(KeyCode.D);
         bool input_space = Input.GetKeyDown(KeyCode.Space);
-
+        
         walk = input_left || input_right;
 
         walk_left = input_left && !input_right;
@@ -140,12 +109,22 @@ public class Player : MonoBehaviour
 
         jump = input_space;
 
+        if (rigidbody2D.velocity.y == 0)
+        {
+            isJumping = false;
+        }
+
         if (input_space == true)
         {
-          
-            float jumpVelocity = 16f;
-            rigidbody2D.velocity = Vector2.up * jumpVelocity;
-            playerState = PlayerState.jumping;
+            if (isJumping == false)
+            {
+                float jumpVelocity = 16f;
+                rigidbody2D.velocity = Vector2.up * jumpVelocity;
+                playerState = PlayerState.jumping;
+
+                isJumping = true;
+
+            }
 
             if (jump && playerState != PlayerState.jumping)
             {
@@ -165,14 +144,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    void Fall()
-    {
-        velocity.y = (float)1.4584;
-        playerState = PlayerState.jumping;
-        
-
-        grounded = false;
-    }
+    
 
 
 
