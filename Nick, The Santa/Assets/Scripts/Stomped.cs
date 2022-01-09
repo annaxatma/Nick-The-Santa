@@ -30,6 +30,7 @@ public class Stomped : MonoBehaviour
            Destroy(other.gameObject);
            rb2D.velocity = new Vector2(rb2D.velocity.x, bounce);
            call.spawn();
+            
        }
    }
    

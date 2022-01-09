@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Player_Hp : MonoBehaviour
 {
-    int hp = 2;
+    int hp = 1;
     int condition = 1;
     // Start is called before the first frame update
     void Start()
@@ -17,7 +17,7 @@ public class Player_Hp : MonoBehaviour
     {
         if(hp <= 0  && condition > 0)
         {
-            Debug.Log("Player died");
+            Destroy(this.gameObject);
 
             condition = 0;
         }

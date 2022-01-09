@@ -29,13 +29,13 @@ public class EnemyAI : MonoBehaviour
             Patrol();
         }
     }
-    private void FixedUpdate()
-    {
-        if (mustPatrol)
-        {
-            mustTurn = !Physics2D.OverlapCircle(groundCheckPos.position, 0.1f, groundLayer);
-        }
-    }
+    //private void FixedUpdate()
+    //{
+        //if (mustPatrol)
+        //{
+           // mustTurn = !Physics2D.OverlapCircle(groundCheckPos.position, 0.1f, groundLayer);
+        //}
+    //}
 
     void Patrol()
     {
@@ -51,6 +51,8 @@ public class EnemyAI : MonoBehaviour
     {
         mustPatrol = false;
         transform.localScale = new Vector2(transform.localScale.x * -1, transform.localScale.y);
+
+        
         walkSpeed *= -1;
         mustPatrol = true;
     }
