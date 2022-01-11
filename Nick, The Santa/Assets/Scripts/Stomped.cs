@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Stomped : MonoBehaviour
 {
@@ -8,15 +9,19 @@ public class Stomped : MonoBehaviour
    public Rigidbody2D rb2D;
    public Spawner call;
 
-   void Start()
-   {
+   public int KillReward = 1;
+   public int Score, totalScore;
+   public Text giftText;
 
+    void Start()
+   {
+        Score = 0;
    }
 
    void Update()
    {
 
-   }
+    }
 
    void Awake()
    {
@@ -27,12 +32,12 @@ public class Stomped : MonoBehaviour
    {
        if (other.CompareTag("Enemy"))
        {
-           Destroy(other.gameObject);
+           Score = Score + KillReward;
+            giftText.text = "x " + Score;
+           totalScore = Score;
+            Destroy(other.gameObject);
            rb2D.velocity = new Vector2(rb2D.velocity.x, bounce);
            call.spawn();
-            
        }
    }
-   
-
 }

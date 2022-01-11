@@ -7,6 +7,7 @@ public class Spawner : MonoBehaviour
     public Transform[] spawnPoints;
     public GameObject[] enemyPrefabs;
     public int mobCount;
+
     // Start is called before the first frame update
     void Start()
     {
